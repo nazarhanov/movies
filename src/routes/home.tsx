@@ -1,4 +1,5 @@
 import "./home.css";
+import CNT from "../constants";
 
 import { Component, createRef } from "preact";
 import { RouterProps } from "preact-router";
@@ -49,15 +50,11 @@ export default class extends Component<RouterProps, {}> {
   }
 
   async api(url: string) {
-    const //
-      API_KEY = "8c8e1a50-6322-4135-8875-5d40a5420d86",
-      API_BASE = "https://kinopoiskapiunofficial.tech";
-
-    const response = await fetch(API_BASE + url, {
+    const response = await fetch(CNT.API_BASE + url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "X-API-KEY": API_KEY,
+        "X-API-KEY": CNT.API_KEY,
       },
     });
 
