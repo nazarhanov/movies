@@ -1,7 +1,8 @@
 import "./player.css";
+import { route } from "../constants";
 
 import { Component, createRef } from "preact";
-import { RouterProps } from "preact-router";
+import { RouterProps, route as redirect } from "preact-router";
 
 interface IParams extends RouterProps {
   title?: string;
@@ -93,13 +94,11 @@ export default class extends Component<IParams, {}> {
       return;
     }
 
-    let player: IPlayer | undefined = players.collaps;
-    if (!player) return;
+    let player: IPlayer = players.collaps;
+    let iframe: string = player?.iframe;
+    if (!iframe) return redirect(route("/error"), true);
 
-    this.refVideo.current.setAttribute(
-      "src",
-      decodeURIComponent(player.iframe)
-    );
+    this.refVideo.current.setAttribute("src", decodeURIComponent(iframe));
   }
 
   render() {
