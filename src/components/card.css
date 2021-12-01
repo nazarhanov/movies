@@ -5,11 +5,35 @@
 .card-img {
   width: 100%;
   padding-bottom: 150%;
+  transition: transform 0.48s;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: #c8c8c8;
-  transition: transform 0.48s;
+  background-color: #f2f2f2;
+}
+
+.card-img.loading {
+  animation-duration: 1.8s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: skeleton;
+  animation-timing-function: linear;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background: #f2f2f2;
+  background: linear-gradient(to right, #f0f0f0 8%, #f4f4f4 38%, #f0f0f0 54%);
+  background-size: 1000px 640px;
+}
+
+@keyframes skeleton {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
 }
 
 .card:hover .card-img {

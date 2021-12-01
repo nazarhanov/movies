@@ -123,3 +123,135 @@ body::-webkit-scrollbar-track:hover {
   padding-top: 40px;
   padding-bottom: 40px;
 }
+
+.loader-page {
+  width: 100%;
+  height: 100%;
+
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: default;
+}
+
+.loader-page:before {
+  content: "";
+  display: block;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+
+  transition: background-color 0.64s, transform 0.72s;
+  transition-timing-function: ease;
+  background-color: #1b1b1b;
+}
+
+.loader-page .loader-wrapper {
+  z-index: 2;
+}
+
+.loader-page.loaded {
+  pointer-events: none;
+}
+
+.loader-page.loaded:before {
+  transform: translate3d(0, -100%, 0);
+  /* background-color: rgba(0, 0, 0, 0); */
+}
+
+.loader-page.loaded .loader-item {
+  border-color: rgba(0, 0, 0, 0) !important;
+}
+
+.loader-wrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  margin: 24px auto;
+  perspective: 800px;
+  position: relative;
+}
+
+.loader-item {
+  position: absolute;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  transition: border-color 0.48s;
+}
+
+.loader-page .loader-item:nth-child(1) {
+  border-bottom-color: #fff;
+}
+
+.loader-page .loader-item:nth-child(2) {
+  border-right-color: #fff;
+}
+
+.loader-page .loader-item:nth-child(3) {
+  border-top-color: #fff;
+}
+
+.loader-item:nth-child(1) {
+  left: 0%;
+  top: 0%;
+  animation: rotate-one 1s linear infinite;
+  border-bottom: 3px solid #b2b2b2;
+}
+
+.loader-item:nth-child(2) {
+  right: 0%;
+  top: 0%;
+  animation: rotate-two 1s linear infinite;
+  border-right: 3px solid #b2b2b2;
+}
+
+.loader-item:nth-child(3) {
+  right: 0%;
+  bottom: 0%;
+  animation: rotate-three 1s linear infinite;
+  border-top: 3px solid #b2b2b2;
+}
+
+.loader-lazy.loaded {
+  display: none;
+}
+
+@keyframes rotate-one {
+  0% {
+    transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+  }
+}
+
+@keyframes rotate-two {
+  0% {
+    transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+  }
+}
+
+@keyframes rotate-three {
+  0% {
+    transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+  }
+}

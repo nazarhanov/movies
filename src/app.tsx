@@ -1,11 +1,21 @@
 import Router from "preact-router";
+import { useState } from "preact/hooks";
+import { Link } from "preact-router/match";
+
 import AsyncRoute from "preact-async-route";
 import Home from "./routes/home";
 import Error from "./routes/error";
-import { Link } from "preact-router/match";
-import CNT, { route } from "./constants";
+
+import { route } from "./constants";
+import cn from "classnames";
 
 export function App() {
+  let [loadingPage, setLoadingPage] = useState(true);
+
+  setTimeout(() => {
+    setLoadingPage(false);
+  }, 1000);
+
   return (
     <>
       <header class="header">
@@ -30,6 +40,14 @@ export function App() {
             loading={() => <span>Загрузка ...</span>}
           />
         </Router>
+
+        <div class={cn("loader loader-page", { loaded: !loadingPage })}>
+          <div class="loader-wrapper">
+            <div class="loader-item"></div>
+            <div class="loader-item"></div>
+            <div class="loader-item"></div>
+          </div>
+        </div>
       </div>
     </>
   );

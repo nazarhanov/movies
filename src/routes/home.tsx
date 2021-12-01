@@ -1,5 +1,6 @@
 import "./home.css";
-import CNT from "../constants";
+import cn from "classnames";
+import cnt from "../constants";
 
 import { Component, createRef } from "preact";
 import { RouterProps } from "preact-router";
@@ -14,6 +15,8 @@ interface IMovieData {
 
 interface IState {
   movies: Array<IMovieData>;
+
+  loadingLazy: boolean;
 }
 
 export default class extends Component<RouterProps, {}> {
@@ -25,6 +28,7 @@ export default class extends Component<RouterProps, {}> {
 
     this.state = {
       movies: [],
+      loadingLazy: false,
     };
 
     this.handleInput = this.handleInput.bind(this);
@@ -50,11 +54,11 @@ export default class extends Component<RouterProps, {}> {
   }
 
   async api(url: string) {
-    const response = await fetch(CNT.API_BASE + url, {
+    const response = await fetch(cnt.API_BASE + url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "X-API-KEY": CNT.API_KEY,
+        "X-API-KEY": cnt.API_KEY,
       },
     });
 
@@ -106,11 +110,16 @@ export default class extends Component<RouterProps, {}> {
 
   page: number = 1;
 
-  componentDidMount() {
+  async componentDidMount() {
     let wait: boolean = false;
 
     const load = async () => {
+      this.setState({ loadingLazy: true });
+
       let stop: boolean = await this.searchMovieTop(this.page++);
+
+      this.setState({ loadingLazy: false });
+
       if (stop) return;
       wait = false;
     };
@@ -127,14 +136,12 @@ export default class extends Component<RouterProps, {}> {
       }
     };
 
-    load();
-  }
-
-  componentWillUnmount() {
-    //
+    await load();
   }
 
   render() {
+    const { loadingLazy } = this.state;
+
     return (
       <>
         <form class="home-search" onSubmit={this.handleSubmit}>
@@ -158,6 +165,14 @@ export default class extends Component<RouterProps, {}> {
             {this.state.movies.map((movie) => (
               <Card class="cards-item" {...movie} />
             ))}
+          </div>
+        </div>
+
+        <div class={cn("loader loader-lazy", { loaded: !loadingLazy })}>
+          <div class="loader-wrapper">
+            <div class="loader-item"></div>
+            <div class="loader-item"></div>
+            <div class="loader-item"></div>
           </div>
         </div>
       </>
